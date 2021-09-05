@@ -3,11 +3,11 @@ import json
 import openpyxl
 
 
-def write_json(data, title="data"):
-    with open(f"{title}.json", "w", encoding="utf-8") as file:
+def write_json(data, file_name="data"):
+    with open(f"{file_name}.json", "w", encoding="utf-8") as file:
         json.dump(data, file, indent=2, ensure_ascii=False)
 
-def write_excel(data, file_name):
+def write_excel(data, file_name="data"):
     book = openpyxl.Workbook()
     sheet = book.active
 

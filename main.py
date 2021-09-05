@@ -77,7 +77,7 @@ class Scraper:
 
     def main(self):
         teachers = self.get_data()
-        write_json(teachers)
+        write_json(teachers, "Преподователи")
         write_excel(teachers, "Преподователи")
 
 
