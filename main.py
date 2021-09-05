@@ -1,10 +1,8 @@
 import logging
 from tqdm import tqdm
 
-
 import requests
 from bs4 import BeautifulSoup
-from pytils import numeral
 
 from functions import write_json, write_excel
 
@@ -27,14 +25,12 @@ class Scraper:
         soup = BeautifulSoup(response.content, "html.parser")
         raw_data = soup.find("div", class_="cat-list").findChildren("div", recursive=False)
 
-        logging.info("Будет собрана информация о {}".format(
-            numeral.get_plural(len(raw_data), "кафедре, кафедрах, кафедр"),
-        ))
+        logging.info(f"Количество кафедр: {len(raw_data)}")
 
         data = []
 
         for department in tqdm(raw_data):
-            department_title = department.get("data-sort-name")[7:]
+            department_title = department.get("data-sort-name")[8:]
             department_url = department.find("a").get("href")
             teachers = self.get_teachers(department_url)
 
@@ -52,7 +48,7 @@ class Scraper:
         # Сортируем преподователей
         # data.sort(key=lambda name: name.split(" ")[-1].lower())
 
-        logging.info(f"Всего преподователей в бомонке - {len(data)}")
+        logging.info(f"Количество преподователей: {len(data)}")
 
         return data
 
@@ -79,8 +75,6 @@ class Scraper:
         teachers = self.get_data()
         write_json(teachers, "Преподователи")
         write_excel(teachers, "Преподователи")
-
-
 
 
 if __name__ == "__main__":
